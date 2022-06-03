@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+  <meta charset="utf-8">
+    <title>timeattack_0602</title>
+    <style>
+      * {
+        font-size: 16px;
+        font-family: Consolas, sans-serif;
+      }
+    </style>
+  </head>
+  <body>
+    <form method="post" action="/product/">
+    {% csrf_token %}
+        {% for ct in category %}
+      <p><input type="checkbox" name="category[]" id="category" value="{{ ct.id }}"> {{ ct.name }}</p>
+        {% endfor %}
+      <p><input type="submit" value="OK"></p>
+    </form>
+    <div>
+        {% for drink in drinks %}
+            <p>제품이름 : {{ drink.name }}</p>
+            <p>카테고리 : {{ drink.category.name }}</p>
+            <p>영양정보 : {{ drink.nutrition }}</p>
+{#            <p>알러지성분 : {{ drink.allergy.all|join:", " }}</p>#}
+            <p>알러지성분 :
+                {% for allergy in drink.allergy.all %}
+                    {{ allergy.allergy_name }}
+                {% endfor %}
+            </p>
+            <hr>
+        {% endfor %}
+    </div>
+  </body>
+</html>
